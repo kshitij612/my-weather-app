@@ -1,43 +1,235 @@
-<div class="container d-flex justify-content-center align-items-center vh-100">
-  <div class="card shadow-lg text-white bg-dark" style="width: 20rem; border-radius: 20px;">
-    
-    <!-- Search Bar -->
-    <div class="text-center p-3">
-      <input type="text" class="form-control rounded-pill bg-light" placeholder="Search city">
+<div
+  class="container rounded shadow p-2"
+  style="background-color: #bad8b6; width: 400px"
+>
+  <div
+    class="text-center text-muted display-6"
+    style="
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+        'Lucida Sans', Arial, sans-serif;
+    "
+  >
+    WEATHER APP
+  </div>
+  <div class="d-flex justify-content-center align-items-center p-3 m-2">
+    <form (submit)="getWeather()">
+      <input
+        name="City"
+        class="form-control"
+        [(ngModel)]="City"
+        placeholder="Enter city name"
+        style="
+          background-color: #f9f6e6;
+          border-color: #8d77ab;
+          border-radius: 20px;
+        "
+      />
+    </form>
+  </div>
+
+  @if (dataFromApi) {
+  <div
+    class="card p m-2 h-80"
+    style="background-color: #e1eacd; border-color: #8d77ab"
+  >
+    <div class="card-header d-flex justify-content-between">
+      <div class="d-flex flex-column">
+        <h1>{{ dataFromApi.name }}</h1>
+        <span>{{ dataFromApi.main.temp | number : "1.0-0" }}°C </span>
+      </div>
+      <div>
+        <img
+          src="images/cloudy.png"
+          alt="snowy"
+          class="img-fluid float-end"
+          style="max-width: 80px"
+        />
+      </div>
     </div>
 
-    <!-- Weather Display -->
-    <div class="text-center p-4" style="background-image: url('night-sky.jpg'); background-size: cover; border-radius: 20px 20px 0 0;">
-      <h3>Alaska</h3>
-      <h1 class="display-3 fw-bold">-5°C</h1>
-      <img src="moon-icon.png" alt="Night" width="60">
-    </div>
+    <!-- card body  -->
+    <div class="card-body d-flex flex-column">
+      <p class="text-dark">More Information</p>
+      <div
+        class="d-flex flex-wrap rounded p-2"
+        style="background-color: #f9f6e6; height: 180px"
+      >
+        <div class="d-flex w-50">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center w-50"
+          >
+            <img
+              src="images/thermometer-colder.svg"
+              class="img"
+              style="width: 3.5em"
+              alt=""
+            />
+            <span style="font-size: 0.8em">Low</span>
+          </div>
+          <div class="d-flex w-50 justify-content-start align-items-center">
+            {{ dataFromApi.main.temp_min | number : "1.0-0" }}°C
+          </div>
+        </div>
 
-    <!-- More Information -->
-    <div class="bg-primary bg-opacity-75 p-3 rounded-bottom">
-      <h6 class="text-uppercase">More Information</h6>
-      <div class="row text-center">
-        <div class="col">
-          <i class="bi bi-thermometer-snow fs-4"></i>
-          <p class="mb-0">Min</p>
-          <p>-5°C</p>
+        <div class="d-flex w-50">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center w-50"
+          >
+            <img
+              src="images/thermometer-warmer.svg"
+              class="img"
+              style="width: 3.5em"
+              alt=""
+            />
+            <span style="font-size: 0.8em">High</span>
+          </div>
+          <div class="d-flex w-50 justify-content-start align-items-center">
+            {{ dataFromApi.main.temp_max | number : "1.0-0" }}°C
+          </div>
         </div>
-        <div class="col">
-          <i class="bi bi-thermometer-sun fs-4"></i>
-          <p class="mb-0">Max</p>
-          <p>-5°C</p>
+
+        <div class="d-flex w-50">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center w-50"
+          >
+            <img
+              src="images/humidity.svg"
+              class="img"
+              style="width: 1.5em"
+              alt=""
+            />
+            <span style="font-size: 0.8em">Humidity</span>
+          </div>
+          <div class="d-flex w-50 justify-content-start align-items-center">
+            {{ dataFromApi.main.humidity | number : "1.0-0" }}%
+          </div>
         </div>
-        <div class="col">
-          <i class="bi bi-droplet fs-4"></i>
-          <p class="mb-0">Humidity</p>
-          <p>80%</p>
-        </div>
-        <div class="col">
-          <i class="bi bi-wind fs-4"></i>
-          <p class="mb-0">Wind</p>
-          <p>2.31 km/h</p>
+
+        <div class="d-flex w-50">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center w-50"
+          >
+            <img
+              src="images/wind.svg"
+              class="img"
+              style="width: 2.5em"
+              alt=""
+            />
+            <span style="font-size: 0.8em">Wind</span>
+          </div>
+          <div class="d-flex w-50 justify-content-start align-items-center">
+            {{ dataFromApi.wind.speed | number : "1.0-0" }} km/h
+          </div>
         </div>
       </div>
     </div>
   </div>
+  }
 </div>
+
+<!-- <div
+class="container rounded shadow p-2"
+style="background-color: #BAD8B6; width: 400px; height: 80vh"
+>
+<div class="d-flex justify-content-center align-items-center p-3 m-2">
+  <form (submit)="getWeather()">
+    <input
+    name="City"
+    class="form-control"
+        [(ngModel)]="City"
+        placeholder="Enter city name"
+        style="background-color: #F9F6E6; border-color: #8D77AB; border-radius: 20px;"
+      />
+    </form>
+  </div>
+
+  <div class="card p m-2 h-80" style="background-color: #E1EACD; border-color: #8D77AB;">
+    <div class="card-header d-flex justify-content-between">
+      <div class="d-flex flex-column">
+        <h1>Delhi</h1>
+        <span>10°C</span>
+      </div>
+      <div>
+        <img
+          src="images/cloudy.png"
+          alt="snowy"
+          class="img-fluid float-end"
+          style="max-width: 80px"
+        />
+      </div>
+    </div>
+
+
+    <div class="card-body d-flex flex-column">
+      <p class="text-dark">More Information</p>
+      <div
+        class="d-flex flex-wrap rounded p-2"
+        style="background-color: #F9F6E6; height: 180px"
+      >
+
+        <div class="d-flex w-50">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center w-50"
+          >
+            <img src="images/thermometer-colder.svg" class="img" style="width: 3.5em" alt="" />
+            <span style="font-size: 0.8em">Low</span>
+          </div>
+          <div class="d-flex w-50 justify-content-start align-items-center">
+            10°C
+          </div>
+        </div>
+
+        <div class="d-flex w-50">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center w-50"
+          >
+            <img
+              src="images/thermometer-warmer.svg"
+              class="img"
+              style="width: 3.5em"
+              alt=""
+            />
+            <span style="font-size: 0.8em">High</span>
+          </div>
+          <div class="d-flex w-50 justify-content-start align-items-center">
+            30°C
+          </div>
+        </div>
+
+        <div class="d-flex w-50">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center w-50"
+          >
+            <img
+              src="images/humidity.svg"
+              class="img"
+              style="width: 1.5em;"
+              alt=""
+            />
+            <span style="font-size: 0.8em">Humidity</span>
+          </div>
+          <div class="d-flex w-50 justify-content-start align-items-center">
+            75%
+          </div>
+        </div>
+
+        <div class="d-flex w-50">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center w-50"
+          >
+            <img
+              src="images/wind.svg"
+              class="img"
+              style="width: 2.5em"
+              alt=""
+            />
+            <span style="font-size: 0.8em">Wind</span>
+          </div>
+          <div class="d-flex w-50 justify-content-start align-items-center">
+            3.5 km/h
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

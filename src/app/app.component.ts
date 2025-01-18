@@ -1,17 +1,31 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
 import { WeatherService } from './services/weather.service';
+import { FormsModule } from '@angular/forms';
+import { WeatherData } from './models/weather.model';
+import { CommonModule } from '@angular/common';
+import { transition, trigger, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [FormsModule, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
-  title = 'my-weather-app';
+export class AppComponent {
   weatherService = inject(WeatherService);
-  ngOnInit(): void {
-    
+  City = signal('');
+  dataFromApi?: WeatherData;
+
+  getWeather() {
+    if (this.City()) {
+
+      this.weatherService.getWeatherFromApi(this.City()).subscribe(
+        data => {
+          this.dataFromApi = data;
+          console.log(this.dataFromApi);
+          this.City.set("");
+        }
+      );
+    }
   }
 }
